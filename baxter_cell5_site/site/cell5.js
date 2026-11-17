@@ -200,7 +200,7 @@ function mainPage() {
     card("", pct(sc - sm, sc), 'of ' + sc.toLocaleString("en") + ' compared camera readings were exact (' + sm + ' misread)') +
     card("", mmss(median(tiedK.map(function (k) { return k.robot_s; }))), 'median robot time of the ' + tied + ' tied knots (mean ' + mmss(mean(tiedK.map(function (k) { return k.robot_s; }))) + ')') +
     card("", mmss(median(tiedK.map(function (k) { return k.wall_s; }))), 'median wall-clock time of the tied knots (Cell 4\'s clock)');
-  $("#c-levels").innerHTML = chartLevels(t);
+  if ($("#c-levels")) $("#c-levels").innerHTML = chartLevels(t);
   $("#c-modes").innerHTML = chartModes();
   $("#c-grabs").innerHTML = chartGrabs();
   $("#c-when").innerHTML = chartWhen();
@@ -211,7 +211,7 @@ function mainPage() {
     rows += '<tr><td>' + l + '</td><td class="num">' + td.length + ' / 25</td><td class="num">' + t.wall[l - 1] + '</td><td class="num">' + ["25", "22", "13", "1"][l - 1] + '</td><td class="num">' + (td.length ? mmss(mean(td.map(function (k) { return k.robot_s; }))) : "n/a") + '</td><td class="num">' + (td.length ? mmss(median(td.map(function (k) { return k.robot_s; }))) : "n/a") + '</td><td class="num">' + sum(ks, function (k) { return k.grabs; }) + '</td><td class="num">' + pct(sum(ks, function (k) { return k.landed; }), sum(ks, function (k) { return k.grabs; })) + '</td><td class="num">' + pct(sum(ks, function (k) { return k.readings_exact; }), sum(ks, function (k) { return k.readings_n; })) + '</td></tr>';
   });
   rows += '<tr style="font-weight:700"><td>all</td><td class="num">' + tied + ' / 100</td><td class="num">' + wallT + '</td><td class="num">61</td><td class="num">' + mmss(mean(tiedK.map(function (k) { return k.robot_s; }))) + '</td><td class="num">' + mmss(median(tiedK.map(function (k) { return k.robot_s; }))) + '</td><td class="num">' + allG + '</td><td class="num">' + pct(allL, allG) + '</td><td class="num">' + pct(sum(K, function (k) { return k.readings_exact; }), sum(K, function (k) { return k.readings_n; })) + '</td></tr>';
-  $("#levtab tbody").innerHTML = rows;
+  if ($("#levtab tbody")) $("#levtab tbody").innerHTML = rows;
   table();
 }
 function card(c, n, l) { return '<div class="card ' + c + '"><div class="n">' + n + '</div><div class="l">' + l + '</div></div>'; }
