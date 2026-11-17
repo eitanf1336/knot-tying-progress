@@ -266,6 +266,9 @@ function chartProgress(k) {
   return svg(W, H, out) + '<div class="leg"><span><i style="background:var(--ink);height:3px;vertical-align:middle"></i>true crossings in the rope after each photo tour</span><span><i style="background:var(--red);border-radius:50%"></i>a misread (the camera read another count)</span><span><i style="background:var(--green);height:3px;vertical-align:middle"></i>target</span><span>ticks on the floor: grabs (green landed)</span></div>';
 }
 var RES = { landed: ["Landed", "g"], wrong_shape: ["Wrong shape", "r"], motion_failed: ["Failed in motion", "n"] };
+/* 17 Nov 2026: a grab whose rope shifted between the grab's end and the next reading (shift, set by the build step) */
+function amber(g) { return g.shift === "to_asked" || g.hit_target; }
+function resOf(g) { return g.hit_target ? ["Not the shape asked: it laid the target knot", "a"] : g.shift === "to_asked" ? ["Wrong shape, then shifted into the shape asked", "a"] : g.shift === "from_asked" ? ["Landed, then shifted out of it", "g"] : RES[g.result]; }
 function knotPage() {
   var id = parseInt(new URLSearchParams(location.search).get("id"), 10), k = BY[id];
   if (!k) { $("#app").innerHTML = '<p class="lede">No such knot. <a class="lk" href="index.html">Back to the wall</a>.</p>'; return; }
@@ -287,12 +290,12 @@ function knotPage() {
     m.addEventListener("click", function (e) { e.stopPropagation(); P.seekTo(Math.max(0, v0 - 0.4)); v.play(); }); P.marks.appendChild(m);
   }
   k.events.forEach(function (e) {
-    if (e.type === "grab") mark("grab" + (e.result === "landed" ? "" : " bad"), e.v, "Grab " + e.n + " at " + mmss(e.t) + ": " + RES[e.result][0]);
+    if (e.type === "grab") mark("grab" + (amber(e) ? " shift" : e.result === "landed" ? "" : " bad"), e.v, "Grab " + e.n + " at " + mmss(e.t) + ": " + resOf(e)[0]);
     else if (e.type === "reading") mark("reading" + (e.exact ? "" : " bad"), e.v, "Reading at " + mmss(e.t) + (e.exact ? ": exact" : ": misread"));
     else if (e.type === "reset") mark("reset", e.v, "Lift reset " + e.n + " at " + mmss(e.t));
   });
   mark("decision" + (ok ? "" : " bad"), (k.decision_t - k.c0) / 16, (ok ? "Tied" : "Decided: not tied") + " at " + mmss(k.decision_t));
-  $("#legend").innerHTML = '<span><i class="g"></i>grab landed</span><span><i class="r"></i>grab failed</span><span><i class="rd"></i>reading</span><span><i class="rs"></i>lift reset</span><span><b style="color:' + (ok ? "var(--green)" : "var(--red)") + '">|</b> decision</span>';
+  $("#legend").innerHTML = '<span><i class="g"></i>grab landed</span><span><i class="r"></i>grab failed</span><span><i class="a"></i>grab not as asked, the rope still got there</span><span><i class="rd"></i>reading</span><span><i class="rs"></i>lift reset</span><span><b style="color:' + (ok ? "var(--green)" : "var(--red)") + '">|</b> decision</span>';
   /* why */
   var deciding = { tied: "the camera and the referee agreed it was tied", claim: "the camera declared the goal and the referee said not tied", referee: "the referee ended the knot", budget: "the 60 robot minutes ran out" }[k.decision];
   var why = '<div class="why ' + cls + '"><b class="h">' + (ok ? "Why it succeeded" : "Why it failed") + '</b>' + esc(k.why) + '</div>' +
@@ -307,11 +310,11 @@ function knotPage() {
     f(k.contact_events, "unintended rope contacts (" + k.contact_topo + " changed the rope)") + f(k.travel_contacts, "contacts during travel (" + k.travel_topo + " changed the rope)") + (k.grasp_err_mm != null ? f(fix(k.grasp_err_mm, 1) + " mm", "median grasp error") : "");
   $("#target").innerHTML = tokens(k.target) + '<p class="note">' + k.level + ' crossing' + (k.level > 1 ? "s" : "") + ', read along the rope from one end: O is over, U is under, the sign is the direction of the crossing, the number is the crossing it passes.</p>';
   $("#c-prog").innerHTML = chartProgress(k);
-  $("#strip").innerHTML = k.grab_list.map(function (g) { return '<a href="#g' + g.n + '" class="' + (g.result === "landed" ? "" : g.result === "wrong_shape" ? "w" : "m") + '" title="Grab ' + g.n + ': ' + RES[g.result][0] + '" data-v="' + g.v + '"></a>'; }).join("") || '<span class="note">No grabs: the knot was decided before the first grab finished.</span>';
+  $("#strip").innerHTML = k.grab_list.map(function (g) { return '<a href="#g' + g.n + '" class="' + (amber(g) ? "s" : g.result === "landed" ? "" : g.result === "wrong_shape" ? "w" : "m") + '" title="Grab ' + g.n + ': ' + resOf(g)[0] + '" data-v="' + g.v + '"></a>'; }).join("") || '<span class="note">No grabs: the knot was decided before the first grab finished.</span>';
   /* tables */
   $("#gt tbody").innerHTML = k.grab_list.map(function (g) {
-    var r = RES[g.result];
-    return '<tr id="g' + g.n + '" class="click" data-v="' + g.v + '"><td>' + g.n + '</td><td class="num">' + mmss(g.t) + '</td><td class="l">' + esc(g.arm || "") + '</td><td class="l">asked ' + g.asked_cr + ': ' + esc(g.asked) + '<br><span style="color:var(--ink3)">' + esc(g.move) + '</span></td><td class="l"><span class="pill ' + r[1] + '">' + r[0] + '</span></td><td class="l">' + (g.stage ? esc(g.stage) : '<span style="color:var(--ink3)">none</span>') + '</td><td class="l">' + (g.result === "motion_failed" ? '<span style="color:var(--ink3)">n/a</span>' : g.got_cr + ' cr: ' + esc(g.got)) + '</td><td class="num">' + (g.from_misread ? "yes" : "") + '</td></tr>';
+    var r = resOf(g);
+    return '<tr id="g' + g.n + '" class="click" data-v="' + g.v + '"><td>' + g.n + '</td><td class="num">' + mmss(g.t) + '</td><td class="l">' + esc(g.arm || "") + '</td><td class="l">asked ' + g.asked_cr + ': ' + esc(g.asked) + '<br><span style="color:var(--ink3)">' + esc(g.move) + '</span></td><td class="l"><span class="pill ' + r[1] + '">' + r[0] + '</span></td><td class="l">' + (g.stage ? esc(g.stage) : '<span style="color:var(--ink3)">none</span>') + '</td><td class="l">' + (g.result === "motion_failed" ? '<span style="color:var(--ink3)">n/a</span>' : g.got_cr + ' cr: ' + esc(g.got) + (g.shift ? '<br><span style="color:var(--ink3)">at the next reading, ' + g.then_cr + ' cr: ' + esc(g.then) + '</span>' : '')) + '</td><td class="num">' + (g.from_misread ? "yes" : "") + '</td></tr>';
   }).join("");
   $("#lt tbody").innerHTML = k.lift_list.map(function (l, i) {
     return '<tr class="click" data-v="' + l.v + '"><td>' + (i + 1) + '</td><td class="num">' + mmss(l.t) + '</td><td class="l">' + esc(l.arm || "") + '</td><td class="l"><span class="pill ' + (l.ok ? "g" : "n") + '">' + (l.ok ? "ok" : "failed") + '</span></td><td class="l">' + (l.stage ? esc(l.stage) : '<span style="color:var(--ink3)">none</span>') + '</td><td class="num">' + fix(l.secs, 1) + ' s</td></tr>';
