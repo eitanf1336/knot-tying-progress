@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Robot knot tying: research progress</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;600&display=swap">
+<style>
+:root{--bg:#F6F4EE;--tile:#ECE8DE;--ink:#15202B;--mute:#4A5560;--ora:#C8501E;--dark:#A8410F;--line:#D8D2C4}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Arial,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:56px 16px 40px}
+.eyebrow{font:600 15px/1.2 "Space Grotesk",Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--dark);margin:0 0 12px}
+h1{font:600 44px/1.1 "Space Grotesk",Arial,sans-serif;margin:0 0 12px}
+.lede{font-size:19px;line-height:1.5;color:var(--mute);margin:0 0 36px;max-width:720px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+a.card{display:flex;flex-direction:column;aspect-ratio:1/1;background:var(--tile);border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;border:3px solid transparent;transition:border-color .15s,transform .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--ora);transform:translateY(-3px);outline:none}
+.pic{flex:1;min-height:0;background:#0B1118}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.txt{padding:22px 24px 24px}
+.num{font:600 15px/1 "Space Grotesk",Arial,sans-serif;letter-spacing:2px;color:var(--dark);margin:0 0 10px}
+h2{font:600 28px/1.15 "Space Grotesk",Arial,sans-serif;margin:0 0 8px}
+.txt p.d{font-size:17px;line-height:1.45;color:var(--mute);margin:0}
+.go{display:inline-block;margin-top:14px;font:600 17px/1 "Space Grotesk",Arial,sans-serif;color:var(--ora)}
+.under{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px;font-size:16px;color:var(--mute)}
+.under a{color:var(--dark)}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--mute)}
+@media (max-width:760px){.wrap{padding-top:32px}h1{font-size:32px}.grid,.under{grid-template-columns:1fr}a.card{aspect-ratio:auto}.pic{aspect-ratio:16/9;flex:none}.under div:empty{display:none}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">Cognitive Robotics Lab · Technion · November 2026</p>
+<h1>A robot that ties knots from its own cameras</h1>
+<p class="lede">Research progress by Eitan Frenkel, supervised by Prof. Erez Karpas. Pick one.</p>
+<div class="grid">
+<a class="card" href="deck/index.html">
+ <div class="pic"><img src="thumbs/deck.jpg" alt="A slide from the presentation: a chart of knots tied out of 100, rising from 34 to 78"></div>
+ <div class="txt"><p class="num">1</p><h2>The presentation</h2>
+ <p class="d">16 November 2026, 27 slides: every step, what was there, what we did and what came out.</p><span class="go">Open the slides →</span></div>
+</a>
+<a class="card" href="baxter_cell5_site/site/index.html">
+ <div class="pic"><img src="thumbs/cell5.jpg" alt="A wall of 100 small films, one per knot attempt, with green and red borders"></div>
+ <div class="txt"><p class="num">2</p><h2>100 knots, every attempt on film</h2>
+ <p class="d">One full run in simulation, 4 to 5 November 2026: 78 of 100 knots tied. Click any knot to watch it.</p><span class="go">Open the 100 knots →</span></div>
+</a>
+</div>
+<div class="under">
+ <div>Slides: arrow keys or space to move, F for full screen, click a picture to enlarge it. <a href="deck/Robot_Knot_Tying_Progress_2026-11-16.pdf">Download as PDF</a> (films become still pictures).</div>
+ <div>Best on a computer: the page plays 100 films at once.</div>
+</div>
+<footer>Unpublished work in progress. Please do not share this link further.</footer>
+</div></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baxter Cell 5: 100 knots, tied by a robot from its own cameras</title>
+<link rel="stylesheet" href="cell5.css"></head>
+<body data-page="main">
+<div class="wrap">
+<header class="top">
+ <div class="eyebrow">TWISTED-Vision &middot; Baxter Cell 5 &middot; 4 to 5 Nov 2026</div>
+ <h1>One hundred knots, tied by a simulated Baxter that only sees through its own cameras.</h1>
+ <p class="lede">All 100 runs play at once below, all at the same 16x speed, in four blocks by number of crossings. A border turns green or red when the referee decides the knot. Click any square to open that knot, with its video, its timeline and why it succeeded or failed.</p>
+</header>
+<div class="stage" id="stage"><video id="wall" autoplay muted playsinline preload="auto" src="" poster=""></video><div class="grid" id="grid"></div></div>
+
+<section>
+ <h2>The result</h2>
+ <p class="sub">The robot has 60 robot minutes per knot. Cell 4 ran on a 60 wall-minute clock, so Cell 5 is also counted on that clock for a like-for-like comparison.</p>
+ <div class="cards" id="cards"></div>
+</section>
+
+<section>
+ <h2>Knots tied, by level</h2>
+ <p class="sub">Out of 25 knots per level. The same 100 runs counted on two clocks, next to Cell 4's 61 (25, 22, 13, 1).</p>
+ <div class="panel"><div id="c-levels"></div></div>
+ <div class="tw"><table id="levtab"><thead><tr><th>Crossings</th><th>Tied (robot clock)</th><th>Tied (wall clock)</th><th>Cell 4</th><th>Mean robot time</th><th>Median robot time</th><th>Grabs</th><th>Landed</th><th>Readings exact (all tours)</th></tr></thead><tbody></tbody></table></div>
+ <p class="note">Times are of the tied knots. Cell 4 (1 to 2 Nov) ran Vision-3 and the lift fix on the wall clock; Cell 5 adds the rope-contact fix and the robot clock. The cells are not paired run for run, so one cell is one sample. 11 of the 78 tied knots tied after 3,600 wall seconds (4,110 to 6,701 s) and are not on the wall-clock count.</p>
+</section>
+
+<section>
+ <h2>When each knot was decided</h2>
+ <p class="sub">Level 1 knots tie in seconds. The knots that fail either run the full hour or are ended early by the referee when the rope falls on the floor.</p>
+ <div class="panel"><div id="c-when"></div></div>
+</section>
+
+<section class="two" style="display:grid">
+ <div><h2>Why 22 failed</h2><p class="sub">Failure mode by rule from the record, all at levels 3 and 4.</p><div class="panel"><div id="c-modes"></div><p class="note">The wrong-shape and out-of-time line is a 50% threshold on the grabs, not a physical cause. No knot was cut by the camera: the grab is what stops them.</p></div></div>
+ <div><h2>What each grab did</h2><p class="sub">All grabs, by the number of crossings the planner asked for.</p><div class="panel"><div id="c-grabs"></div></div></div>
+</section>
+
+<section>
+ <h2>All 100 knots</h2>
+ <p class="sub">Click a column to sort, a row to open the knot. Contacts are unintended rope contacts replayed from the record, and how many changed the rope's topology.</p>
+ <div class="filters">
+  <select id="f-level"><option value="">All levels</option><option value="1">1 crossing</option><option value="2">2 crossings</option><option value="3">3 crossings</option><option value="4">4 crossings</option></select>
+  <select id="f-out"><option value="">Tied and not tied</option><option value="tied">Tied</option><option value="failed">Not tied</option></select>
+  <select id="f-mode"><option value="">Any failure mode</option><option value="grab landed wrong shape">Grab landed wrong shape</option><option value="rope lost">Rope lost</option><option value="out of time">Out of time</option><option value="misread">Misread</option></select>
+  <input id="f-q" placeholder="Knot number" inputmode="numeric" style="width:130px"><span class="note" id="kcount" style="margin:0 0 0 auto"></span>
+ </div>
+ <div class="tw"><table id="kt"><thead><tr></tr></thead><tbody></tbody></table></div>
+</section>
+<footer>Source: the cell's own records (index.json per knot), data in <code>robot_cameras/docs/data/baxter_cell5_knots.csv</code>. The simulator's truth only referees the outcome; the robot never reads it. Caveat carried by every result: B8 trained on B7.2's data, which holds 4,009 copies of cell-record states. Videos: the wall is each knot's main camera view; each knot page plays at a fixed 16x robot time.</footer>
+</div>
+<script src="data.js"></script><script src="cell5.js"></script>
+<script>var v=document.getElementById("wall");v.src=window.C5MEDIA+"wall.mp4";v.poster=window.C5MEDIA+"wall_poster.jpg";</script>
+</body></html>

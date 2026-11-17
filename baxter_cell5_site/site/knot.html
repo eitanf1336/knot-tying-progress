@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Knot - Baxter Cell 5</title>
+<link rel="stylesheet" href="cell5.css"></head>
+<body data-page="knot">
+<div class="wrap" id="app">
+<header class="top">
+ <div class="crumbs"><a href="index.html">&larr; All 100 knots</a><span>&middot;</span><a class="pn-prev" href="#"></a><span>&middot;</span><a class="pn-next" href="#"></a></div>
+ <h1 id="title">Knot</h1><p class="lede" id="meta"></p>
+</header>
+<div class="stage knotv" id="stage"><video id="kv" playsinline muted preload="auto"></video></div>
+<div class="legend" id="legend"></div>
+<p class="note" style="max-width:960px;margin:6px auto 0">Fixed 16x robot time by default (the speed buttons show true-time multiples). Markers on the bar are clickable. Click a row in any table below to jump to that moment. Space plays and pauses, arrows jump 10 s.</p>
+
+<section><h2>Outcome</h2><div id="why"></div></section>
+<section><h2>The numbers</h2><div class="facts" id="facts"></div></section>
+<section class="two" style="display:grid"><div><h2>Target knot</h2><div class="panel" id="target"></div></div><div><h2>Grab by grab</h2><div class="panel"><div class="strip" id="strip"></div><p class="note">One square per grab, in order: filled green landed the shape asked, filled red laid another shape, outlined red failed in motion.</p></div></div></section>
+<section><h2>How the rope got on</h2><p class="sub">True crossings in the rope after each photo tour, against the target.</p><div class="panel" id="c-prog"></div></section>
+<section><h2>Grabs</h2><div class="tw"><table id="gt"><thead><tr><th>#</th><th>Robot time</th><th class="l">Arm</th><th class="l">Asked</th><th class="l">Result</th><th class="l">Error stage</th><th class="l">Rope after</th><th>From misread</th></tr></thead><tbody></tbody></table></div></section>
+<section><h2>Lifts and resets</h2><div class="tw"><table id="lt"><thead><tr><th>#</th><th>Robot time</th><th class="l">Arm</th><th class="l">Result</th><th class="l">Error stage</th><th>Seconds</th></tr></thead><tbody></tbody></table></div></section>
+<section><h2>Photo tours and readings</h2><div class="tw"><table id="rt"><thead><tr><th>#</th><th>Robot time</th><th class="l">Camera read</th><th class="l">True rope</th><th class="l">Reading</th><th>Close-ups</th><th>Seconds</th></tr></thead><tbody></tbody></table></div><p class="note" id="rnote"></p></section>
+<div class="pn"><a class="btn pn-prev" href="#"></a><a class="btn" href="index.html">All 100 knots</a><a class="btn pn-next" href="#"></a></div>
+<footer>Robot time is the robot's own clock: motion plus charged photo tours, lifts and reads (the budget is 3,600 s). The video has no filmed frames during a camera read, so the last frame is held there.</footer>
+</div>
+<script src="data.js"></script><script src="cell5.js"></script>
+</body></html>
